@@ -3,7 +3,7 @@ WORKDIR /opt/app
 COPY . .
 RUN mvn clean package
 
-FROM docker.io/openjdk:10.0.5-jdk
+FROM docker.io/openjdk:11.0.5-jdk
 #FROM registry.access.redhat.com/ubi8/openjdk-11:latest
 
 COPY --from=builder /opt/app/target/nationalparks.jar /nationalparks.jar
