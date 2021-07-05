@@ -1,6 +1,12 @@
-FROM docker.io/openjdk:11.0.5-jdk
+FROM maven:3.6.3-jdk-11 AS builder
+WORKDIR /opt/app
+COPY . .
+RUN mvn clean package
+
+FROM docker.io/openjdk:10.0.5-jdk
 #FROM registry.access.redhat.com/ubi8/openjdk-11:latest
 
-COPY target/nationalparks.jar /opt
+COPY --from=builder /opt/app/target/nationalparks.jar /nationalparks.jar
 
-CMD java -jar /opt/nationalparks.jar
+CMD java -jar /nationalparks.jar
+EXPOSE 8080
